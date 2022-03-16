@@ -18,6 +18,8 @@ public class Bank {
 
     public void ujSzamla(String nev, String szamlaszam)
     {
+        if (szamlak.containsKey(szamlaszam))
+            throw new IllegalArgumentException("A megadott számlaszámmal már létezik számla!");
         Szamla szamla = new Szamla(nev, szamlaszam);
         szamlak.put(szamlaszam, szamla);
     }

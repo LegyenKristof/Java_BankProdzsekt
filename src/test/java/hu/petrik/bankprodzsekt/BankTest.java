@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BankTest {
 
+    Bank bank = new Bank();
+
     @BeforeEach
     void setUp() {
 
@@ -14,18 +16,33 @@ class BankTest {
 
     @Test
     void ujSzamlaEgyenlegNulla() {
-        Bank bank = new Bank();
         bank.ujSzamla("Teszt Elek", "1234");
-        long egyenleg = bank.egyenleg("1234");
-        assertEquals(0, egyenleg);
+        assertEquals(0, bank.egyenleg("1234"));
     }
 
     @Test
     void ujSzamlaEgyenlegFeltoltesMegfeleloEgyenleg() {
-        Bank bank = new Bank();
         bank.ujSzamla("Teszt Elek", "1234");
         bank.egyenlegFeltolt("1234", 1000);
-        long egyenleg = bank.egyenleg("1234");
-        assertEquals(1000, egyenleg);
+        assertEquals(1000, bank.egyenleg("1234"));
+        bank.egyenlegFeltolt("1234", 2000);
+        assertEquals(3000, bank.egyenleg("1234"));
+    }
+
+    @Test
+    void tobbSzamlaFeltoltEgyenlegMegfeleloreKerul() {
+        bank.ujSzamla("Teszt Elek", "1234");
+        bank.ujSzamla("Gipsz Jakab", "5678");
+        bank.egyenlegFeltolt("5678", 1000);
+        bank.egyenlegFeltolt("1234", 5000);
+        bank.egyenlegFeltolt("5678", 2000);
+        assertEquals(5000, bank.egyenleg("1234"));
+        assertEquals(3000, bank.egyenleg("5678"));
+    }
+
+    @Test
+    void ujSzamlaMeglevoSzamlaszammal() {
+        bank.ujSzamla("Teszt Elek", "1234");
+        assertThrows(IllegalArgumentException.class, () -> bank.ujSzamla("Gipsz Jakab", "1234"));
     }
 }
