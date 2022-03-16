@@ -29,8 +29,9 @@ public class Bank {
         throw new UnsupportedOperationException();
     }
 
-    public long egyenleg(String szamlaszam)
-    {
+    public long egyenleg(String szamlaszam) {
+        if(!szamlak.containsKey(szamlaszam))
+            throw new HibasSzamlaszamException(szamlaszam);
         Szamla szamla = szamlak.get(szamlaszam);
         return szamla.getEgyenleg();
     }

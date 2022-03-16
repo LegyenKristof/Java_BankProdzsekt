@@ -43,6 +43,12 @@ class BankTest {
     @Test
     void ujSzamlaMeglevoSzamlaszammal() {
         bank.ujSzamla("Teszt Elek", "1234");
+        assertEquals(0, bank.egyenleg("1234"));
         assertThrows(IllegalArgumentException.class, () -> bank.ujSzamla("Gipsz Jakab", "1234"));
+    }
+
+    @Test
+    void nemLetezoSzamlaEgyenlegKivetel() {
+        assertThrows(HibasSzamlaszamException.class, () -> bank.egyenleg("1234"));
     }
 }
