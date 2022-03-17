@@ -20,6 +20,10 @@ public class Bank {
     {
         if (szamlak.containsKey(szamlaszam))
             throw new IllegalArgumentException("A megadott számlaszámmal már létezik számla!");
+        else if (nev.trim().isEmpty())
+            throw new IllegalArgumentException("A tulajdonos neve üres!");
+        else if (szamlaszam.trim().isEmpty())
+            throw new IllegalArgumentException("A számlaszám üres!");
         Szamla szamla = new Szamla(nev, szamlaszam);
         szamlak.put(szamlaszam, szamla);
     }

@@ -51,4 +51,35 @@ class BankTest {
     void nemLetezoSzamlaEgyenlegKivetel() {
         assertThrows(HibasSzamlaszamException.class, () -> bank.egyenleg("1234"));
     }
+
+    @Test
+    void ujSzamlaUresNevvelKivetel() {
+        assertThrows(IllegalArgumentException.class, () -> bank.ujSzamla("", "1234"));
+    }
+
+    @Test
+    void ujSzamlaUresSzamlaszammalKivetel() {
+        assertThrows(IllegalArgumentException.class, () -> bank.ujSzamla("Gipsz Jakab", ""));
+    }
+
+    @Test
+    void egyenlegFeltoltNemLetezoSzamlaszammalKivetel() {
+        assertThrows(IllegalArgumentException.class, () -> bank.egyenlegFeltolt("1234", 100));
+    }
+
+    @Test
+    void egyenlegFeltoltNullaOsszegKivetel() {
+        bank.ujSzamla("Teszt Elek", "1234");
+        assertThrows(IllegalArgumentException.class, () -> bank.egyenlegFeltolt("1234", 0));
+    }
+
+    @Test
+    void egyenlegFeltoltNegativOsszegKivetel() {
+        bank.ujSzamla("Teszt Elek", "1234");
+        assertThrows(IllegalArgumentException.class, () -> bank.egyenlegFeltolt("1234", -1));
+
+    }
+
+
+
 }
